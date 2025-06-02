@@ -1,11 +1,9 @@
-import requests
-from html2image import Html2Image
+import subprocess
 
-def capture_screenshot(url):
+def capture_screenshot(url, output='screenshot.png'):
     try:
-        hti = Html2Image()
-        hti.screenshot(url=url, save_as='screenshot.png')
-        print("[+] Screenshot saved as screenshot.png")
-    except Exception as e:
-        print(f"[!] Error capturing screenshot: {e}")
-
+        cmd = ['wkhtmltoimage', url, output]
+        subprocess.run(cmd, check=True)
+        print(f"[+] Screenshot saved as {output}")
+    except subprocess.CalledProcessError as e:
+        print(f"[!] Screenshot failed: {e}")
